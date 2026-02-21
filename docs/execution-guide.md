@@ -86,17 +86,15 @@ docs/requirements.md와 docs/IMPLEMENTATION.md를 읽고 다음을 생성해줘:
 Wave 번호와 테스트 상한만 바꿔서 사용:
 
 ```
-먼저 npm run build로 이전 Wave 상태를 확인해줘. 실패하면 수정 후 진행.
-
-CLAUDE.md와 docs/ 전체 문서를 읽고 Wave {번호}를 실행해.
+CLAUDE.md와 docs/ 전체 문서를 읽고 Wave 4를 실행해.
 IMPLEMENTATION.md 기준으로 팀을 자율 구성하고 태스크를 배분해.
 
 제약:
 - 코딩 역할은 Opus 사용
 - 비코딩 역할(테스트/리뷰/문서)은 Sonnet 또는 Haiku 사용
-- 테스트는 최대 {상한}개, 실패 3개 초과 시 삭제
+- 문서 담당을 반드시 포함: 변경사항 반영이 필요한 docs/ 문서를 업데이트
+- 테스트는 최대 25개, 실패 3개 초과 시 삭제
 - 기존 Wave 코드 수정 금지
-- docs/TASK-LOG.md에 태스크 배분 + Plan vs Actual 기록
 - 완료 후 npm run build + npx playwright test 검증 후 TeamDelete
 ```
 

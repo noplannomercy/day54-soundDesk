@@ -1,27 +1,59 @@
-CLAUDE.md와 docs/ 문서를 읽고 최종 QA를 실행해.
+# Wave 4 재개 가이드
 
-Step 1: 기존 테스트 전체 실행
-- npx playwright test로 tests/wave1~4.spec.ts 전부 실행
-- 실패 케이스 수정
+## 현재 상태
+Wave 4 코딩 완료. 빌드 검증 + 테스트 + 마무리 대기 중.
 
-Step 2: 통합 테스트 작성 + 실행
-- Wave 간 연동되는 시나리오만 테스트
-- tests/integration.spec.ts 단일 파일에 저장
+## 팀 정보
+- Team name: `wave4-sounddesk` (아직 삭제 안 됨)
 
-에이전트 팀:
-- tester-a (Sonnet): Step 1 담당. 기존 테스트 전체 실행 + 실패 수정.
-  신규 테스트 작성하지 마.
-- tester-b (Sonnet): Step 2 담당. 통합 테스트 작성 + 실행.
-  tests/integration.spec.ts에 저장.
-  통합 테스트 범위:
-  - 리드 생성 → Qualified → 딜 자동 전환 → 칸반에 표시
-  - 연락처 생성 → 회사 연결 → 딜 생성 → 활동 추가 → 대시보드 반영
-  - 파이프라인 스테이지 변경 → 딜 확률 변경 → 매출 예측 갱신
-  - 딜 Won/Lost → 보고서 차트 반영
-  통합 테스트 제한: 최대 8개 케이스. 초과 금지.
-  테스트 실패 3개 초과 시 해당 테스트 삭제하고 다음으로.
-- da (Haiku): 전체 테스트 결과 리뷰 + 실패 분석.
+## 재개 시 할 일 (순서대로)
 
-tester-a 완료 후 tester-b 시작 (순차).
-최종 npx playwright test 전체 실행 (wave1 + wave2 + wave3 + wave4 + integration).
-npm run build 확인 후 TeamDelete.
+### 1. npm run build
+```bash
+npm run build
+```
+빌드 오류 있으면 수정.
+
+### 2. Wave 4 Playwright 테스트 작성
+- 파일: `tests/e2e/wave4.spec.ts`
+- 최대 25개 테스트
+- 기존 wave1/2/3.spec.ts 패턴 참고
+- 대상 페이지: /dashboard, /tags, /reviews, /playlists, /reports, /settings
+
+### 3. npx playwright test 실행
+```bash
+npx playwright test
+```
+실패 3개 초과 시 해당 테스트 삭제.
+
+### 4. TeamDelete
+```
+wave4-sounddesk 팀 삭제
+```
+
+## Wave 4에서 구현된 것
+
+### 신규 서비스
+- `src/services/tagService.ts`
+- `src/services/reviewService.ts`
+- `src/services/playlistService.ts`
+- `src/services/dashboardService.ts`
+
+### 신규 컴포넌트
+- `src/components/tags/` — TagBadge, TagSelector, TagForm
+- `src/components/reviews/` — StarRating, ReviewForm
+- `src/components/playlists/` — TrackPicker, PlaylistForm
+- `src/components/dashboard/` — SessionTimeline, RoomAvailability, RevenueCard, AlbumProgressCard, ActivityTimeline
+- `src/components/reports/` — RevenueChart, RoomUtilizationChart, ArtistRevenueChart, EquipmentValueChart, EngineerActivityChart
+
+### 완성된 페이지 (placeholder → 실제 구현)
+- `src/app/(main)/tags/page.tsx`
+- `src/app/(main)/reviews/page.tsx`
+- `src/app/(main)/playlists/page.tsx`
+- `src/app/(main)/dashboard/page.tsx`
+- `src/app/(main)/reports/page.tsx`
+- `src/app/(main)/settings/page.tsx`
+
+### 기존 파일 통합 수정
+- `src/app/(main)/albums/[id]/page.tsx` — TagSelector 연결
+- `src/app/(main)/artists/[id]/page.tsx` — reviews 탭 연결

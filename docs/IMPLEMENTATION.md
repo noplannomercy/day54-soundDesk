@@ -629,9 +629,46 @@ sounddesk_settings
 
 ## Wave별 완료 기준
 
-| Wave | 완료 기준 |
-|------|-----------|
-| Wave 1 | `npm run dev` 실행 후 /dashboard 리다이렉트, 사이드바 18개 링크 모두 동작, localStorage seed 초기화 확인 |
-| Wave 2 | Studio/Room/Artist/Album/Track/Member 각 페이지에서 CRUD 동작, 브라우저 새로고침 후 데이터 유지 |
-| Wave 3 | Session 생성 시 충돌 방지 동작, Invoice 자동 계산 동작, Contract 만료 하이라이트 동작 |
-| Wave 4 | Dashboard 데이터 표시, Reports 5개 차트 렌더링, Settings 데이터 초기화 동작 |
+| Wave | 완료 기준 | 상태 |
+|------|-----------|------|
+| Wave 1 | `npm run dev` 실행 후 /dashboard 리다이렉트, 사이드바 18개 링크 모두 동작, localStorage seed 초기화 확인 | ✅ 완료 |
+| Wave 2 | Studio/Room/Artist/Album/Track/Member 각 페이지에서 CRUD 동작, 브라우저 새로고침 후 데이터 유지 | ✅ 완료 |
+| Wave 3 | Session 생성 시 충돌 방지 동작, Invoice 자동 계산 동작, Contract 만료 하이라이트 동작 | ✅ 완료 |
+| Wave 4 | Dashboard 데이터 표시, Reports 5개 차트 렌더링, Settings 데이터 초기화 동작 | 🔄 코딩 완료, 빌드 검증 대기 중 |
+
+---
+
+## Wave 4 구현 현황 (2026-02-21)
+
+### 신규 서비스 (4개)
+| 파일 | 함수 |
+|------|------|
+| `src/services/tagService.ts` | getTags, createTag, updateTag, deleteTag, addTagToEntity, removeTagFromEntity, getEntityTags, getTagEntityCount |
+| `src/services/reviewService.ts` | getReviews, getReviewById, createReview, updateReview, deleteReview |
+| `src/services/playlistService.ts` | getPlaylists, getPlaylistById, createPlaylist, updatePlaylist, deletePlaylist |
+| `src/services/dashboardService.ts` | getDashboardData, getRoomUtilization, getRevenueData |
+
+### 신규 컴포넌트 (13개)
+- `src/components/tags/` — TagBadge, TagSelector, TagForm
+- `src/components/reviews/` — StarRating, ReviewForm
+- `src/components/playlists/` — TrackPicker, PlaylistForm
+- `src/components/dashboard/` — SessionTimeline, RoomAvailability, RevenueCard, AlbumProgressCard, ActivityTimeline
+- `src/components/reports/` — RevenueChart, RoomUtilizationChart, ArtistRevenueChart, EquipmentValueChart, EngineerActivityChart
+
+### 완성된 페이지 (6개, placeholder → 실제 구현)
+- `src/app/(main)/tags/page.tsx`
+- `src/app/(main)/reviews/page.tsx`
+- `src/app/(main)/playlists/page.tsx`
+- `src/app/(main)/dashboard/page.tsx`
+- `src/app/(main)/reports/page.tsx`
+- `src/app/(main)/settings/page.tsx`
+
+### Wave 2/3 파일 통합 수정 (2개)
+- `src/app/(main)/albums/[id]/page.tsx` — TagSelector 태그 관리 연결
+- `src/app/(main)/artists/[id]/page.tsx` — reviews 탭 실제 리뷰 목록 연결
+
+### 남은 작업
+1. `npm run build` 빌드 검증 및 오류 수정
+2. `tests/e2e/wave4.spec.ts` 작성 (max 25개 테스트)
+3. `npx playwright test` 실행 (실패 3개 초과 시 해당 테스트 삭제)
+4. TeamDelete (wave4-sounddesk)
